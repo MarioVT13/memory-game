@@ -1,5 +1,11 @@
 # Yara Coding Excerice - Memory Game
 
+## Install notes
+
+Install with `yarn` or `npm install`
+
+Run with `npx expo start`
+
 ## General Notice
 
 Please time-box this task to approximately max. two hours, we do not expect you to complete all the tasks in any way. It would be nice if the core features/concept are completed, but any further mentioned options are really purely optional and can be added/extended as you like. What we particularly value is that the submitted code is well structured, and has a mostly clean codebase.
@@ -58,7 +64,7 @@ You can find those design mockups in the (`./images/mockups`) folder within this
 |                                    Select Difficulty                                     |                                       Core Game                                        |
 | :--------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------: |
 |             ![Yara-NTester](images/mockups/01_select-difficulty-screen.png)              |                    ![Yara-NTester](images/mockups/02_core-game.png)                    |
-| ![Yara-NTester](images/mockups/03-medium-difficulty.png 'Additional feature (3x4 Grid)') | ![Yara-NTester](images/mockups/03-hard-difficulty.png 'Additional feature (4x4 Grid)') |
+| ![Yara-NTester](images/mockups/03-medium-difficulty.png "Additional feature (3x4 Grid)") | ![Yara-NTester](images/mockups/03-hard-difficulty.png "Additional feature (4x4 Grid)") |
 
 ## Card Tile Images
 

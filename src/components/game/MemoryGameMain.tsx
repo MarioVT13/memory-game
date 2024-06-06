@@ -15,9 +15,10 @@ export default function MemoryGameMain() {
 
 const styles = StyleSheet.create({
   parentContainer: {
+    height: "85%",
     width: "100%",
     backgroundColor: "lightyellow",
     alignItems: "center",
-    justifyContent: "space-around",
+    justifyContent: "flex-end",
   },
 });

@@ -4,20 +4,29 @@ import { horizontalScale } from "../../../utils/ScalingUtil";
 
 export default function NewGameButton() {
   return (
-    <TouchableOpacity style={styles.parentContainer} onPress={() => {}}>
-      <View style={styles.newGameIcon}>
-        <Icon name={"refresh"} size={horizontalScale(30)} color={"#000"} />
-      </View>
-      <Text style={styles.newGameLabel}>New Game</Text>
-    </TouchableOpacity>
+    <View style={styles.parentContainer}>
+      <TouchableOpacity style={styles.newGameContainer} onPress={() => {}}>
+        <View style={styles.newGameIcon}>
+          <Icon name={"refresh"} size={horizontalScale(30)} color={"#000"} />
+        </View>
+        <Text style={styles.newGameLabel}>New Game</Text>
+      </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   parentContainer: {
+    height: "20%",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  newGameContainer: {
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#fff",
+    marginBottom: "5%",
   },
   newGameIcon: {
     backgroundColor: "lightgray",

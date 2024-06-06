@@ -5,7 +5,10 @@ export default function Card({ item, index }: { item: number; index: number }) {
   const middleMarginBetweenItems = index % 2 == 0 ? verticalScale(10) : 0;
 
   return (
-    <View style={[styles.card, { marginRight: middleMarginBetweenItems }]}>
+    <View
+      key={`${index}`}
+      style={[styles.card, { marginRight: middleMarginBetweenItems }]}
+    >
       <Text>{item}</Text>
     </View>
   );

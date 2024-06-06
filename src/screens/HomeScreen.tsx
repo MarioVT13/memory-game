@@ -1,6 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
-import MemoryGameMain from "../components/game/MemoryGameMain";
 import TitleHeader from "../components/TitleHeader";
+import MemoryGameMain from "../components/game/MemoryGameMain";
 
 export default function HomeScreen() {
   return (

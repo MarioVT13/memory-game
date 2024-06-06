@@ -2,12 +2,19 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { horizontalScale } from "../../../utils/ScalingUtil";
 
-export default function NewGameButton() {
+export default function NewGameButton({
+  onSelectNewGame,
+}: {
+  onSelectNewGame: () => void;
+}) {
   return (
     <View style={styles.parentContainer}>
-      <TouchableOpacity style={styles.newGameContainer} onPress={() => {}}>
+      <TouchableOpacity
+        style={styles.newGameContainer}
+        onPress={onSelectNewGame}
+      >
         <View style={styles.newGameIcon}>
-          <Icon name={"refresh"} size={horizontalScale(30)} color={"#000"} />
+          <Icon name={"refresh"} size={horizontalScale(28)} color={"#000"} />
         </View>
         <Text style={styles.newGameLabel}>New Game</Text>
       </TouchableOpacity>

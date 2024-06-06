@@ -3,10 +3,10 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { horizontalScale, verticalScale } from "../../../utils/ScalingUtil";
 import Card from "./Card";
 
-type DataType = {};
-
-export default function GameArea() {
+export default function GameArea({ difficulty }: { difficulty: number }) {
   const allCards = [...Array(8).keys()];
+
+  console.log("difficulty: ", difficulty);
 
   return (
     <View style={styles.parentContainer}>
@@ -16,9 +16,6 @@ export default function GameArea() {
         showsVerticalScrollIndicator={false}
         numColumns={2}
         contentContainerStyle={styles.flatListContainer}
-        // keyExtractor={(item: DataType, index: number) =>
-        //   `${item.id}_${index}`
-        // }
       />
     </View>
   );

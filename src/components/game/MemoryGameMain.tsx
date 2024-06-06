@@ -1,14 +1,28 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { horizontalScale } from "../../utils/ScalingUtil";
+import { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import GameArea from "./components/GameArea";
 import NewGameButton from "./components/NewGameButton";
+import SelectDifficulty from "./components/SelectDifficulty";
 
 export default function MemoryGameMain() {
+  const [showDifficulty, setShowDifficulty] = useState<boolean>(true);
+  const [selectedDifficulty, setSelectedDifficulty] = useState<number>(0);
+
+  const handleSelection = (val: number) => {
+    setSelectedDifficulty(val);
+    setShowDifficulty(false);
+  };
+
   return (
     <View style={styles.parentContainer}>
-      <NewGameButton />
-      <GameArea />
+      {showDifficulty ? (
+        <SelectDifficulty onSelectDifficulty={handleSelection} />
+      ) : (
+        <>
+          <NewGameButton onSelectNewGame={() => setShowDifficulty(true)} />
+          <GameArea difficulty={selectedDifficulty} />
+        </>
+      )}
     </View>
   );
 }

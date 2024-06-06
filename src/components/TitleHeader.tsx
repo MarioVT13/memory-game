@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   title: {
     position: "absolute",
     bottom: "15%",
-    fontSize: horizontalScale(28),
+    fontSize: horizontalScale(27),
     fontWeight: "bold",
     textAlign: "center",
   },

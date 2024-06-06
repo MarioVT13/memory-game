@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { horizontalScale } from "../utils/ScalingUtil";
-import MemoryGame from "../components/game/MemoryGame";
+import MemoryGameMain from "../components/game/MemoryGameMain";
 
 export default function HomeScreen() {
   return (
@@ -9,7 +9,7 @@ export default function HomeScreen() {
         <Text style={styles.title}>Yara Memory Game</Text>
       </View>
       <View style={styles.contentContainer}>
-        <MemoryGame />
+        <MemoryGameMain />
       </View>
     </View>
   );

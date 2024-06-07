@@ -6,6 +6,8 @@ export default function GameArea({ difficulty }: { difficulty: number }) {
   const allCards = prepareCards(difficulty);
   const numColumns = difficulty + 2; // we need 2, 3 or 4 columns
 
+  //   console.log("allCards: ", allCards);
+
   return (
     <View style={styles.parentContainer}>
       <FlatList
@@ -32,6 +34,6 @@ const styles = StyleSheet.create({
   flatListContainer: {
     alignItems: "center",
     paddingVertical: "5%",
-    backgroundColor: "red",
+    backgroundColor: "pink",
   },
 });

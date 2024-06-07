@@ -21,7 +21,7 @@ export const cardCountMap: CountMap = {
 
 export type CardDataType = {
   id: number;
-  image: string;
+  image: number; // require paths are resolved into a numeric handle by the React Native packager
 };
 
 const cardsData: CardDataType[] = [

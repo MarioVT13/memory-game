@@ -1,15 +1,26 @@
 import { StyleSheet, Text, View } from "react-native";
 import { verticalScale } from "../../../utils/ScalingUtil";
+import { CardDataType } from "./Data";
 
-export default function Card({ item, index }: { item: number; index: number }) {
-  const middleMarginBetweenItems = index % 2 == 0 ? verticalScale(10) : 0;
+type CardType = {
+  item: CardDataType;
+  index: number;
+  numColumns: number;
+};
+
+export default function Card({ item, index, numColumns }: CardType) {
+  // Remove marginRight on the last item in each row
+  const marginRight =
+    index % numColumns === numColumns - 1 ? 0 : verticalScale(10);
+
+  //   console.log("item: ", item.image);
 
   return (
     <View
-      key={`${index}`}
-      style={[styles.card, { marginRight: middleMarginBetweenItems }]}
+      key={`${item.id}`}
+      style={[styles.card, { marginRight: marginRight }]}
     >
-      <Text>{item}</Text>
+      <Text>{item.id}</Text>
     </View>
   );
 }

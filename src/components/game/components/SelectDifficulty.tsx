@@ -1,7 +1,5 @@
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { horizontalScale, verticalScale } from "../../../utils/ScalingUtil";
-import { useState } from "react";
 import { gameModes } from "./Data";
 
 export default function SelectDifficulty({

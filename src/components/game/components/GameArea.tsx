@@ -1,20 +1,20 @@
-import { FlatList, StyleSheet, Text, View } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { horizontalScale, verticalScale } from "../../../utils/ScalingUtil";
+import { FlatList, StyleSheet, View } from "react-native";
+import { prepareCards } from "../../../utils/RandomShuffleUtil";
 import Card from "./Card";
 
 export default function GameArea({ difficulty }: { difficulty: number }) {
-  const allCards = [...Array(8).keys()];
-
-  console.log("difficulty: ", difficulty);
+  const allCards = prepareCards(difficulty);
+  const numColumns = difficulty + 2; // we need 2, 3 or 4 columns
 
   return (
     <View style={styles.parentContainer}>
       <FlatList
         data={allCards}
-        renderItem={({ item, index }) => <Card index={index} item={item} />}
+        renderItem={({ item, index }) => (
+          <Card item={item} index={index} numColumns={numColumns} />
+        )}
         showsVerticalScrollIndicator={false}
-        numColumns={2}
+        numColumns={numColumns}
         contentContainerStyle={styles.flatListContainer}
       />
     </View>

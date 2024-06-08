@@ -1,55 +1,67 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { verticalScale } from "../../../utils/ScalingUtil";
-import { CardDataType } from "./Data";
+import { ExtendedCardDataType } from "./Data";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useState } from "react";
 
 type CardType = {
-  item: CardDataType;
+  item: ExtendedCardDataType;
   index: number;
   numColumns: number;
+  onPress: () => void;
+  isFlipped: boolean;
 };
 
-export default function Card({ item, index, numColumns }: CardType) {
-  const [showImage, setShowImage] = useState<boolean>(false);
-
+export default function Card({
+  item,
+  index,
+  numColumns,
+  onPress,
+  isFlipped,
+}: CardType) {
   // Remove marginRight on the last item in each row
   const marginRight =
     index % numColumns === numColumns - 1 ? 0 : verticalScale(10);
 
   // algorithm for calculating image size dynamically
-  const dynamicImageSize = 180 / numColumns + (numColumns - 2) * 10;
+  const imageSize = 180 / numColumns + (numColumns - 2) * 10;
 
   const dynamicStyles = {
-    width: verticalScale(dynamicImageSize),
-    height: verticalScale(dynamicImageSize),
+    width: verticalScale(imageSize),
+    height: verticalScale(imageSize),
     marginBottom: verticalScale(10),
     marginRight: marginRight,
-    borderColor: showImage ? "skyblue" : "#000",
+    borderColor: isFlipped ? "skyblue" : "#000",
   };
 
-  if (showImage) {
+  //   if (isFlipped) {
+  //     console.log("ITEM.ID: ", item.id);
+  //     console.log("INDEX: ", index);
+  //   }
+
+  if (isFlipped) {
     return (
       <Image
-        key={`${item.id}_${index}`}
+        key={item?.uniqueKey}
         source={item.image}
         style={[styles.card, dynamicStyles]}
       />
     );
+  } else {
+    return (
+      <TouchableOpacity
+        onPress={onPress}
+        key={item?.uniqueKey}
+        style={[styles.card, dynamicStyles]}
+      >
+        <Icon
+          name={"help"}
+          size={verticalScale(imageSize / 2)}
+          color={"#000"}
+        />
+      </TouchableOpacity>
+    );
   }
-
-  return (
-    <TouchableOpacity
-      key={`${item.id}_${index}`}
-      style={[styles.card, dynamicStyles]}
-    >
-      <Icon
-        name={"help"}
-        size={verticalScale(dynamicImageSize / 2)}
-        color={"#000"}
-      />
-    </TouchableOpacity>
-  );
 }
 
 const styles = StyleSheet.create({

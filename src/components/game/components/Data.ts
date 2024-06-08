@@ -1,7 +1,7 @@
-interface GameModes {
+type GameModes = {
   id: number;
   mode: string;
-}
+};
 
 export const gameModes: GameModes[] = [
   { id: 0, mode: "easy" },
@@ -19,10 +19,14 @@ export const cardCountMap: CountMap = {
   2: 16,
 };
 
-export type CardDataType = {
+export interface CardDataType {
   id: number;
   image: number; // require paths are resolved into a numeric handle by the React Native packager
-};
+}
+
+export interface ExtendedCardDataType extends CardDataType {
+  uniqueKey: string; // Unique key (added during processing) for handling duplicates
+}
 
 const cardsData: CardDataType[] = [
   {

@@ -24,7 +24,14 @@ export function prepareCards(difficulty: number) {
   const shuffledCards = shuffleArray(cardsData);
   const selectedCards = shuffledCards.slice(0, count);
 
-  // Duplicate and shuffle the selected cards to ensure the game setup
-  const duplicatedCards = [...selectedCards, ...selectedCards];
+  // Duplicate the selected cards to ensure the game setup
+  let duplicatedCards = [...selectedCards, ...selectedCards];
+
+  // Assign a unique key to each card in the duplicated array
+  duplicatedCards = duplicatedCards.map((card, index) => ({
+    ...card,
+    uniqueKey: `${card.id}_${index}`,
+  }));
+
   return shuffleArray(duplicatedCards);
 }

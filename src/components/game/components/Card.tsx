@@ -4,13 +4,13 @@ import { ExtendedCardDataType } from "./Data";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useState } from "react";
 
-type CardType = {
+interface CardType {
   item: ExtendedCardDataType;
   index: number;
   numColumns: number;
   onPress: () => void;
   isFlipped: boolean;
-};
+}
 
 export default function Card({
   item,
@@ -33,11 +33,6 @@ export default function Card({
     marginRight: marginRight,
     borderColor: isFlipped ? "skyblue" : "#000",
   };
-
-  //   if (isFlipped) {
-  //     console.log("ITEM.ID: ", item.id);
-  //     console.log("INDEX: ", index);
-  //   }
 
   if (isFlipped) {
     return (

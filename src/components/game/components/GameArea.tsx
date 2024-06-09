@@ -1,14 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { prepareCards } from "../../../utils/RandomShuffleUtil";
 import Card from "./Card";
+import VictoryMessage from "./VictoryMessage";
 
 export default function GameArea({ difficulty }: { difficulty: number }) {
-  const initialCards = prepareCards(difficulty);
   const numColumns = difficulty + 2; // Adjust columns based on difficulty
 
-  const [activeCards, setActiveCards] = useState(initialCards);
+  const [activeCards, setActiveCards] = useState(prepareCards(difficulty));
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
+  const [matchedIds, setMatchedIds] = useState<number[]>([]);
+
+  useEffect(() => {
+    setActiveCards(prepareCards(difficulty));
+  }, [difficulty]);
 
   const handlePress = (uniqueKey: string) => {
     if (selectedKeys.includes(uniqueKey) || selectedKeys.length === 2) {
@@ -28,11 +33,9 @@ export default function GameArea({ difficulty }: { difficulty: number }) {
       );
 
       if (firstCard?.id === secondCard?.id) {
-        // Check by id
+        // Check if cards match by id
         setTimeout(() => {
-          setActiveCards((prevCards) =>
-            prevCards.filter((card) => card.id !== firstCard.id)
-          );
+          setMatchedIds((prev) => [...prev, firstCard.id]);
           setSelectedKeys([]);
         }, 1000);
       } else {
@@ -42,24 +45,31 @@ export default function GameArea({ difficulty }: { difficulty: number }) {
     }
   };
 
+  const isCompletedGame = matchedIds?.length * 2 === activeCards?.length;
+
   return (
     <View style={styles.parentContainer}>
-      <FlatList
-        data={activeCards}
-        renderItem={({ item, index }) => (
-          <Card
-            item={item}
-            index={index}
-            numColumns={numColumns}
-            onPress={() => handlePress(item.uniqueKey)}
-            isFlipped={selectedKeys.includes(item.uniqueKey)}
-          />
-        )}
-        showsVerticalScrollIndicator={false}
-        numColumns={numColumns}
-        contentContainerStyle={styles.flatListContainer}
-        keyExtractor={(item) => item.uniqueKey}
-      />
+      {isCompletedGame ? (
+        <VictoryMessage />
+      ) : (
+        <FlatList
+          data={activeCards}
+          renderItem={({ item, index }) => (
+            <Card
+              item={item}
+              index={index}
+              numColumns={numColumns}
+              onPress={() => handlePress(item.uniqueKey)}
+              isFlipped={selectedKeys.includes(item.uniqueKey)}
+              isVisible={!matchedIds.includes(item.id)}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          numColumns={numColumns}
+          contentContainerStyle={styles.flatListContainer}
+          keyExtractor={(item) => item.uniqueKey}
+        />
+      )}
     </View>
   );
 }

@@ -10,6 +10,7 @@ interface CardType {
   numColumns: number;
   onPress: () => void;
   isFlipped: boolean;
+  isVisible: boolean;
 }
 
 export default function Card({
@@ -18,20 +19,22 @@ export default function Card({
   numColumns,
   onPress,
   isFlipped,
+  isVisible,
 }: CardType) {
   // Remove marginRight on the last item in each row
   const marginRight =
     index % numColumns === numColumns - 1 ? 0 : verticalScale(10);
 
-  // algorithm for calculating image size dynamically
+  // Algorithm for calculating image size dynamically
   const imageSize = 180 / numColumns + (numColumns - 2) * 10;
 
-  const dynamicStyles = {
+  const dynamicCardStyles = {
     width: verticalScale(imageSize),
     height: verticalScale(imageSize),
     marginBottom: verticalScale(10),
     marginRight: marginRight,
     borderColor: isFlipped ? "skyblue" : "#000",
+    opacity: isVisible ? 1 : 0, // hide matched pairs
   };
 
   if (isFlipped) {
@@ -39,7 +42,7 @@ export default function Card({
       <Image
         key={item?.uniqueKey}
         source={item.image}
-        style={[styles.card, dynamicStyles]}
+        style={[styles.card, dynamicCardStyles]}
       />
     );
   } else {
@@ -47,7 +50,7 @@ export default function Card({
       <TouchableOpacity
         onPress={onPress}
         key={item?.uniqueKey}
-        style={[styles.card, dynamicStyles]}
+        style={[styles.card, dynamicCardStyles]}
       >
         <Icon
           name={"help"}

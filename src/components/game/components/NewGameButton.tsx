@@ -1,14 +1,30 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Animated,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { horizontalScale } from "../../../utils/ScalingUtil";
+import { useEffect, useRef } from "react";
 
 export default function NewGameButton({
   onSelectNewGame,
 }: {
   onSelectNewGame: () => void;
 }) {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true, // Using native driver for better performance
+    }).start();
+  }, []);
+
   return (
-    <View style={styles.parentContainer}>
+    <Animated.View style={[styles.parentContainer, { opacity: fadeAnim }]}>
       <TouchableOpacity
         style={styles.newGameContainer}
         onPress={onSelectNewGame}
@@ -18,7 +34,7 @@ export default function NewGameButton({
         </View>
         <Text style={styles.newGameLabel}>New Game</Text>
       </TouchableOpacity>
-    </View>
+    </Animated.View>
   );
 }
 

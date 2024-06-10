@@ -12,6 +12,23 @@ export default function GameArea({ difficulty }: { difficulty: number }) {
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const [matchedIds, setMatchedIds] = useState<number[]>([]);
 
+  const [startTime, setStartTime] = useState<Date | null>(null);
+  const [timeElapsed, setTimeElapsed] = useState("");
+  const formatTime = (num: number) => num.toString().padStart(2, "0");
+
+  useEffect(() => {
+    // Logic for tracking time of the game session
+    if (matchedIds.length * 2 === activeCards.length && startTime) {
+      const endTime = new Date();
+      const elapsedTime = Math.floor(
+        (endTime.getTime() - startTime.getTime()) / 1000
+      ); // seconds
+      const minutes = formatTime(Math.floor(elapsedTime / 60));
+      const seconds = formatTime(elapsedTime % 60);
+      setTimeElapsed(`${minutes}:${seconds}`);
+    }
+  }, [matchedIds, activeCards.length, startTime]);
+
   useEffect(() => {
     return () => {
       // Clear any running timeouts when the component unmounts
@@ -21,6 +38,10 @@ export default function GameArea({ difficulty }: { difficulty: number }) {
 
   const handlePress = useCallback(
     (uniqueKey: string) => {
+      if (selectedKeys.length === 0 && !startTime) {
+        setStartTime(new Date());
+      }
+
       if (selectedKeys.includes(uniqueKey) || selectedKeys.length === 2) {
         // Prevent the player from opening more than 2 cards at a time
         return;
@@ -62,7 +83,7 @@ export default function GameArea({ difficulty }: { difficulty: number }) {
   return (
     <View style={styles.parentContainer}>
       {isCompletedGame ? (
-        <VictoryMessage />
+        <VictoryMessage time={timeElapsed} />
       ) : (
         <FlatList
           data={activeCards}
@@ -90,7 +111,6 @@ const styles = StyleSheet.create({
   parentContainer: {
     width: "100%",
     height: "80%",
-    backgroundColor: "lightgreen",
     alignItems: "center",
   },
 

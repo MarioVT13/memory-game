@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
   parentContainer: {
     height: "85%",
     width: "100%",
-    backgroundColor: "lightyellow",
     alignItems: "center",
     justifyContent: "flex-end",
   },

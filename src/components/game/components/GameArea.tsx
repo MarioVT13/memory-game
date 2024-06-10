@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { FlatList, StyleSheet, View } from "react-native";
 import { prepareCards } from "../../../utils/RandomShuffleUtil";
 import Card from "./Card";
@@ -6,46 +6,58 @@ import VictoryMessage from "./VictoryMessage";
 
 export default function GameArea({ difficulty }: { difficulty: number }) {
   const numColumns = difficulty + 2; // Adjust columns based on difficulty
+  const activeCards = useMemo(() => prepareCards(difficulty), [difficulty]);
+  const timeoutRef = useRef<number | null>(null);
 
-  const [activeCards, setActiveCards] = useState(prepareCards(difficulty));
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const [matchedIds, setMatchedIds] = useState<number[]>([]);
 
   useEffect(() => {
-    setActiveCards(prepareCards(difficulty));
-  }, [difficulty]);
+    return () => {
+      // Clear any running timeouts when the component unmounts
+      clearTimeout(timeoutRef.current as number);
+    };
+  }, []);
 
-  const handlePress = (uniqueKey: string) => {
-    if (selectedKeys.includes(uniqueKey) || selectedKeys.length === 2) {
-      // Prevent the player from opening more than 2 cards at a time
-      return;
-    }
-
-    const newSelectedKeys = [...selectedKeys, uniqueKey];
-    setSelectedKeys(newSelectedKeys);
-
-    if (newSelectedKeys.length === 2) {
-      const firstCard = activeCards.find(
-        (card) => card.uniqueKey === newSelectedKeys[0]
-      );
-      const secondCard = activeCards.find(
-        (card) => card.uniqueKey === newSelectedKeys[1]
-      );
-
-      if (firstCard?.id === secondCard?.id) {
-        // Check if cards match by id
-        setTimeout(() => {
-          setMatchedIds((prev) => [...prev, firstCard.id]);
-          setSelectedKeys([]);
-        }, 2 * 1000);
-      } else {
-        // Not a match, show them for a second then hide
-        setTimeout(() => setSelectedKeys([]), 2 * 1000);
+  const handlePress = useCallback(
+    (uniqueKey: string) => {
+      if (selectedKeys.includes(uniqueKey) || selectedKeys.length === 2) {
+        // Prevent the player from opening more than 2 cards at a time
+        return;
       }
-    }
-  };
 
-  const isCompletedGame = matchedIds?.length * 2 === activeCards?.length;
+      const newSelectedKeys = [...selectedKeys, uniqueKey];
+      setSelectedKeys(newSelectedKeys);
+
+      if (newSelectedKeys.length === 2) {
+        const firstCard = activeCards.find(
+          (card) => card.uniqueKey === newSelectedKeys[0]
+        );
+        const secondCard = activeCards.find(
+          (card) => card.uniqueKey === newSelectedKeys[1]
+        );
+
+        if (firstCard?.id === secondCard?.id) {
+          // Check if cards match by id
+          timeoutRef.current = setTimeout(() => {
+            setMatchedIds((prev) => [...prev, firstCard.id]);
+            setSelectedKeys([]);
+          }, 1000) as unknown as number;
+        } else {
+          // Not a match, show them for 2 seconds then hide
+          timeoutRef.current = setTimeout(
+            () => setSelectedKeys([]),
+            2 * 1000
+          ) as unknown as number;
+        }
+      }
+    },
+    [selectedKeys, activeCards]
+  );
+
+  const isCompletedGame = useMemo(() => {
+    return matchedIds.length * 2 === activeCards.length;
+  }, [matchedIds.length, activeCards.length]);
 
   return (
     <View style={styles.parentContainer}>

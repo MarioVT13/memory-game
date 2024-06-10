@@ -37,10 +37,10 @@ export default function GameArea({ difficulty }: { difficulty: number }) {
         setTimeout(() => {
           setMatchedIds((prev) => [...prev, firstCard.id]);
           setSelectedKeys([]);
-        }, 1000);
+        }, 2 * 1000);
       } else {
         // Not a match, show them for a second then hide
-        setTimeout(() => setSelectedKeys([]), 1000);
+        setTimeout(() => setSelectedKeys([]), 2 * 1000);
       }
     }
   };
@@ -84,6 +84,6 @@ const styles = StyleSheet.create({
 
   flatListContainer: {
     paddingVertical: "5%",
-    backgroundColor: "pink",
+    paddingHorizontal: "2%",
   },
 });

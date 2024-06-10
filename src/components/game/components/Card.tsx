@@ -1,8 +1,8 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useEffect, useRef } from "react";
+import { Animated, StyleSheet, TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { verticalScale } from "../../../utils/ScalingUtil";
 import { ExtendedCardDataType } from "./Data";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useState } from "react";
 
 interface CardType {
   item: ExtendedCardDataType;
@@ -21,12 +21,27 @@ export default function Card({
   isFlipped,
   isVisible,
 }: CardType) {
-  // Remove marginRight on the last item in each row
-  const marginRight =
-    index % numColumns === numColumns - 1 ? 0 : verticalScale(10);
+  // Initialize animated value
+  const flipAnim = useRef(new Animated.Value(0.5)).current;
+
+  useEffect(() => {
+    flipAnim.setValue(0.5); // Rest the animation value, to reuse animation
+    startFlipAnimation();
+  }, [isFlipped]);
+
+  function startFlipAnimation() {
+    Animated.spring(flipAnim, {
+      toValue: 1,
+      useNativeDriver: true, // Use the native drivers for performance benefit
+      friction: isFlipped ? 5 : 3, // Control the "bounciness"/spring speed
+    }).start();
+  }
 
   // Algorithm for calculating image size dynamically
   const imageSize = 180 / numColumns + (numColumns - 2) * 10;
+  // Remove marginRight on the last item in each row
+  const marginRight =
+    index % numColumns === numColumns - 1 ? 0 : verticalScale(10);
 
   const dynamicCardStyles = {
     width: verticalScale(imageSize),
@@ -35,14 +50,19 @@ export default function Card({
     marginRight: marginRight,
     borderColor: isFlipped ? "skyblue" : "#000",
     opacity: isVisible ? 1 : 0, // hide matched pairs
+    borderRadius: 25 - (numColumns - 2) * 5,
   };
 
   if (isFlipped) {
     return (
-      <Image
+      <Animated.Image
         key={item?.uniqueKey}
         source={item.image}
-        style={[styles.card, dynamicCardStyles]}
+        style={[
+          styles.card,
+          dynamicCardStyles,
+          { transform: [{ scaleX: flipAnim }] },
+        ]}
       />
     );
   } else {
@@ -52,11 +72,13 @@ export default function Card({
         key={item?.uniqueKey}
         style={[styles.card, dynamicCardStyles]}
       >
-        <Icon
-          name={"help"}
-          size={verticalScale(imageSize / 2)}
-          color={"#000"}
-        />
+        <Animated.View style={{ transform: [{ scaleY: flipAnim }] }}>
+          <Icon
+            name={"help"}
+            size={verticalScale(imageSize / 2)}
+            color={"#000"}
+          />
+        </Animated.View>
       </TouchableOpacity>
     );
   }
@@ -68,6 +90,5 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 25,
   },
 });

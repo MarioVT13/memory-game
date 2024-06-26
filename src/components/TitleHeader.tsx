@@ -4,7 +4,7 @@ import { horizontalScale } from "../utils/ScalingUtil";
 export default function TitleHeader() {
   return (
     <View style={styles.parentContainer}>
-      <Text style={styles.title}>Yara Memory Game</Text>
+      <Text style={styles.title}>Memory Game</Text>
     </View>
   );
 }

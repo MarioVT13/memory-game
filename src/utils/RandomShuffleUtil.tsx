@@ -2,11 +2,6 @@ import cardsData, { cardCountMap } from "../components/game/components/Data";
 
 // Utility to shuffle array
 
-// The shuffleArray algorithm itself is not my creation.
-// The name of the author is Fisher Yates.
-// This is one of the most famous and solid algorithms for shuffling arrays.
-// There is no way I can top this, so I just borrowed it here :)
-
 function shuffleArray(array: any[]) {
   //  <<-- Fisher Yates -->>  //
   let shuffledArray = [...array];

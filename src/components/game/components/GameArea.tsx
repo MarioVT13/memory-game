@@ -3,6 +3,7 @@ import { FlatList, StyleSheet, View } from "react-native";
 import { prepareCards } from "../../../utils/RandomShuffleUtil";
 import Card from "./Card";
 import VictoryMessage from "./VictoryMessage";
+import useGameTimer from "../../../hooks/useGameTimer";
 
 export default function GameArea({ difficulty }: { difficulty: number }) {
   const numColumns = difficulty + 2; // Adjust columns based on difficulty
@@ -11,23 +12,10 @@ export default function GameArea({ difficulty }: { difficulty: number }) {
 
   const [selectedKeys, setSelectedKeys] = useState<string[]>([]);
   const [matchedIds, setMatchedIds] = useState<number[]>([]);
-
-  const [startTime, setStartTime] = useState<Date | null>(null);
-  const [timeElapsed, setTimeElapsed] = useState("");
-  const formatTime = (num: number) => num.toString().padStart(2, "0");
-
-  useEffect(() => {
-    // Logic for tracking time of the game session
-    if (matchedIds.length * 2 === activeCards.length && startTime) {
-      const endTime = new Date();
-      const elapsedTime = Math.floor(
-        (endTime.getTime() - startTime.getTime()) / 1000
-      ); // seconds
-      const minutes = formatTime(Math.floor(elapsedTime / 60));
-      const seconds = formatTime(elapsedTime % 60);
-      setTimeElapsed(`${minutes}:${seconds}`);
-    }
-  }, [matchedIds, activeCards.length, startTime]);
+  const { startTime, setStartTime, timeElapsed } = useGameTimer(
+    activeCards.length,
+    matchedIds.length
+  );
 
   useEffect(() => {
     return () => {

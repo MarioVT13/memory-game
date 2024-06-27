@@ -31,35 +31,35 @@ export interface ExtendedCardDataType extends CardDataType {
 const cardsData: CardDataType[] = [
   {
     id: 0,
-    image: require("../../../../assets/products/01_Yara-NTester.png"),
+    image: require("../../../../assets/cards/1.png"),
   },
   {
     id: 1,
-    image: require("../../../../assets/products/02_YaraTera.png"),
+    image: require("../../../../assets/cards/2.png"),
   },
   {
     id: 2,
-    image: require("../../../../assets/products/03_YaraBela.png"),
+    image: require("../../../../assets/cards/3.png"),
   },
   {
     id: 3,
-    image: require("../../../../assets/products/04_YaraVita.png"),
+    image: require("../../../../assets/cards/4.png"),
   },
   {
     id: 4,
-    image: require("../../../../assets/products/05_YaraVera.png"),
+    image: require("../../../../assets/cards/5.png"),
   },
   {
     id: 5,
-    image: require("../../../../assets/products/06_YaraRega.png"),
+    image: require("../../../../assets/cards/6.png"),
   },
   {
     id: 6,
-    image: require("../../../../assets/products/07_YaraMila.png"),
+    image: require("../../../../assets/cards/7.png"),
   },
   {
     id: 7,
-    image: require("../../../../assets/products/08_YaraLiva.png"),
+    image: require("../../../../assets/cards/8.png"),
   },
 ];
 

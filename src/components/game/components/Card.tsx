@@ -49,7 +49,7 @@ export default function Card({
       height: verticalScale(imageSize),
       marginBottom: verticalScale(10),
       marginRight: marginRight,
-      borderColor: isFlipped ? "skyblue" : "#000",
+      borderColor: isFlipped ? "blue" : "#000",
       opacity: isVisible ? 1 : 0,
       borderRadius: 25 - (numColumns - 2) * 5,
     }),

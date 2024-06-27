@@ -48,11 +48,10 @@ const styles = StyleSheet.create({
   newGameContainer: {
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#fff",
     marginBottom: "5%",
   },
   newGameIcon: {
-    backgroundColor: "lightgray",
+    backgroundColor: "#fff",
     borderRadius: 30,
     borderWidth: 3,
     borderColor: "#000",
